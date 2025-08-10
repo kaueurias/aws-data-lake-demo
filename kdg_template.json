@@ -1,0 +1,13 @@
+{
+  "year": "{{random.number({"min":1850,"max":1900})}}",
+  "month": "{{random.number({"min":1,"max":12})}}",
+  "day": "{{random.number({"min":1,"max":30})}}",
+  "firstname": "{{name.firstName}}",
+  "lastname": "{{name.lastName}}",
+  "city": "{{address.city}}",
+  "state": "{{address.state}}",
+  "country": "{{address.country}}",
+  "zipcode": "{{address.zipCode}}",
+  "street": "{{address.streetAddress}}",
+  "transactionamount": {{random.number({"min":10,"max":150})}}
+}
