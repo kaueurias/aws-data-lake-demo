@@ -22,21 +22,16 @@ This project demonstrates a complete AWS Data Lake implementation, including:
 - **Integrated monitoring** with CloudWatch
 - **Data visualization** with Amazon QuickSight
 
-## 🏗️ Arquitetura
+## 🏗️ Architecture
 
-```mermaid
-graph LR
-    A[KDG] --> B[Kinesis Firehose]
-    B --> C[S3 Raw Data]
-    C --> D[Lambda Trigger]
-    D --> E[Glue ETL Job]
-    E --> F[S3 Processed Data]
-    F --> G[Athena]
-    G --> H[QuickSight]
-    
-    I[CloudWatch] --> B
-    I --> D
-    I --> E
+![AWS Data Lake Architecture](architecture-diagram.png)
+
+> 📋 **Architecture Diagram**: The complete architecture diagram is available in `architecture-diagram.drawio` (editable with [draw.io](https://app.diagrams.net/))
+
+### Data Flow
+
+```
+KDG → Kinesis Firehose → S3 (raw) → Lambda → Glue ETL → S3 (processed) → Athena → QuickSight
 ```
 
 ### Componentes
@@ -91,6 +86,32 @@ terraform apply
 }
 ```
 
+### QuickSight Setup (Manual)
+
+> ⚠️ **Note**: QuickSight is not included in Terraform due to user-specific credentials and complex IAM requirements.
+
+**Why Manual Setup?**
+- Requires user-specific AWS credentials
+- Organization-dependent configurations
+- Interactive Athena integration works better
+- Complex IAM policies vary by use case
+
+**Setup Steps:**
+1. **Enable QuickSight**: AWS Console → QuickSight → Standard Edition
+2. **Configure Permissions**: Allow access to S3 and Athena
+3. **Create Data Source**: 
+   - Type: **Athena**
+   - Workgroup: `data-lake-demo-workgroup`
+   - Database: `data_lake_demo_database`
+4. **Create Dataset**: Select `processed_data` table
+5. **Build Dashboards**: Create visualizations as needed
+
+**Suggested Visualizations:**
+- 📊 Transaction amounts by state
+- 🌆 Geographic distribution by city
+- 📈 Data ingestion timeline
+- 📊 Top 10 cities by volume
+
 ## 📊 Resources Created
 
 ### Core Infrastructure
@@ -133,14 +154,16 @@ LIMIT 10;
 ## 📁 Project Structure
 
 ```
-├── main.tf                 # Main resources
-├── iam.tf                  # Roles and policies
-├── glue_catalog.tf         # Tables and schema
-├── cloudwatch.tf           # Logs and monitoring
-├── outputs.tf              # Terraform outputs
-├── kdg_template.json       # KDG template
-├── GUIA_IMPLANTACAO.md     # Complete guide (PT-BR)
-└── README.md               # This file
+├── main.tf                    # Main resources
+├── iam.tf                     # Roles and policies
+├── glue_catalog.tf            # Tables and schema
+├── cloudwatch.tf              # Logs and monitoring
+├── outputs.tf                 # Terraform outputs
+├── kdg_template.json          # KDG template
+├── architecture-diagram.drawio # Architecture diagram (draw.io)
+├── architecture-diagram.png   # Architecture diagram (image)
+├── GUIA_IMPLANTACAO.md        # Complete guide (PT-BR)
+└── README.md                  # This file
 ```
 
 ## 🔧 Advanced Configuration
